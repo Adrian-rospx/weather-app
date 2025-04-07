@@ -2,11 +2,12 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtGui import QIcon
-
 # labels:
 from PyQt6.QtWidgets import QLabel
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+# images:
+from PyQt6.QtGui import QPixmap
 
 # define the Qt window
 class MainWindow(QMainWindow):
@@ -19,17 +20,31 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("cloud.png"))
 
         # adding a label
-        label = QLabel("Hello to all you.", self)
+        label = QLabel("Weather app.", self)
         label.setFont(QFont("Arial", 40))
         label.setGeometry(0, 0, 800, 100)
         # CSS-like properties
-        label.setStyleSheet("color: blue;" 
+        label.setStyleSheet("color: Black;" 
                             "background-color: skyblue;"
                             "font-weight: bold;"
                             "font-style: italic;"
                             "text-decoration: underline;")
         # allign text:
-        label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # add an image:
+        label_img = QLabel(self)
+        label_img.setGeometry(0, 100, 800, 400)
+        # map the pixelmap
+        pixmap = QPixmap("weather.jpg")
+        label_img.setPixmap(pixmap)
+        # scale:
+        label_img.setScaledContents(True)
+        # scaling tricks:
+        label_img.setGeometry(0, 
+                              100, 
+                              label_img.width(), 
+                              label_img.height())
 
 
 def main():
