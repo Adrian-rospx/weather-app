@@ -16,37 +16,34 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("cloud.png"))
 
         # initialise UI by function
-        self.initui()
+        self.initUI()
 
     # function for defining the UI
-    def initui(self):
-        # adding a label
-        label = QLabel("Weather app.", self)
-        label.setFont(QFont("Arial", 40))
-        label.setGeometry(0, 0, 800, 100)
-        # CSS-like properties
-        label.setStyleSheet("color: Black;" 
-                            "background-color: skyblue;"
-                            "font-weight: bold;"
-                            "font-style: italic;"
-                            "text-decoration: underline;")
-        # allign text:
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        # add an image:
-        label_img = QLabel(self)
-        label_img.setGeometry(0, 100, 800, 400)
-        # map the pixelmap
-        pixmap = QPixmap("weather.jpg")
-        label_img.setPixmap(pixmap)
-        # scale:
-        label_img.setScaledContents(True)
-        # scaling tricks:
-        label_img.setGeometry(0, 
-                              100, 
-                              label_img.width(), 
-                              label_img.height())
+    def initUI(self):
+        # Adding widgets:
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
         
+        label1 = QLabel("#1", self)
+        label2 = QLabel("#2", self)
+        label3 = QLabel("#3", self)
+        label4 = QLabel("#4", self)
+        label5 = QLabel("#5", self)
+        
+        label1.setStyleSheet("background-color: red;")
+        label2.setStyleSheet("background-color: yellow;")
+        label3.setStyleSheet("background-color: blue;")
+        label4.setStyleSheet("background-color: magenta;")
+        label5.setStyleSheet("background-color: lime;")
+
+        grid_box = QGridLayout()
+        grid_box.addWidget(label1, 0, 0)
+        grid_box.addWidget(label2, 0, 1)
+        grid_box.addWidget(label3, 1, 0)
+        grid_box.addWidget(label4, 1, 1)
+        grid_box.addWidget(label5, 1, 2) 
+
+        central_widget.setLayout(grid_box)
 
 
 def main():
