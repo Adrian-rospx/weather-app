@@ -1,7 +1,7 @@
 # intro to PyQt6
 import sys
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QLabel,
-                             QWidget, QPushButton)
+                             QWidget, QCheckBox)
 from PyQt6.QtGui import QIcon, QFont, QPixmap
 from PyQt6.QtCore import Qt
 
@@ -13,28 +13,25 @@ class MainWindow(QMainWindow):
         self.setGeometry(200, 200, 800, 600)
         self.setWindowIcon(QIcon("cloud.png"))
 
-        # button added
-        self.button = QPushButton("click here!", self)
-        self.label = QLabel("Pending...", self)
+        self.checkbox = QCheckBox("Do you like this application?", self)
 
         self.initUI()
 
     # function for defining the UI
     def initUI(self):
-        self.button.setGeometry(150, 20, 200, 200)
-        self.button.setStyleSheet("font-size: 30px;")
-        # sends a SIGNAL to a SLOT
-        self.button.clicked.connect(self.on_click)
-    
-        self.label.setGeometry(150, 300, 200, 100)
-        self.label.setStyleSheet("font-size: 30px;")
+        self.checkbox.setGeometry(100, 100, 400, 400)
+        self.checkbox.setStyleSheet("font-size: 30px;"
+                                    "font-family: Arial")
+        self.checkbox.setChecked(False)
+        self.checkbox.stateChanged.connect(self.checkbox_changed)
 
-    def on_click(self):
-        print("Button clicked!")
-        self.button.setText("Clicked!")
-        self.button.setDisabled(True)
+    def checkbox_changed(self, state):
+        print(state)
+        if state == Qt.CheckState.Checked:
+            print("Of course!")
+        else:
+            print("nnni")
 
-        self.label.setText("Done.")
 
 
 def main():
