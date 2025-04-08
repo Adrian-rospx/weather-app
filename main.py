@@ -1,24 +1,25 @@
 # intro to PyQt6
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow
-from PyQt6.QtGui import QIcon
-# labels:
-from PyQt6.QtWidgets import QLabel
-from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import (QApplication, QMainWindow, QLabel,
+                             QWidget, QVBoxLayout, QHBoxLayout, QGridLayout)
+from PyQt6.QtGui import QIcon, QFont, QPixmap
 from PyQt6.QtCore import Qt
-# images:
-from PyQt6.QtGui import QPixmap
 
 # define the Qt window
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        # set title and window position & size
+        # set window title, position & size
         self.setWindowTitle("Weather app")
         self.setGeometry(200, 200, 800, 600)
-        # window icon
+        # set icon
         self.setWindowIcon(QIcon("cloud.png"))
 
+        # initialise UI by function
+        self.initui()
+
+    # function for defining the UI
+    def initui(self):
         # adding a label
         label = QLabel("Weather app.", self)
         label.setFont(QFont("Arial", 40))
@@ -45,6 +46,7 @@ class MainWindow(QMainWindow):
                               100, 
                               label_img.width(), 
                               label_img.height())
+        
 
 
 def main():
