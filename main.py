@@ -32,13 +32,26 @@ class weather_app(QWidget):
         vbox.addWidget(self.description)
         self.setLayout(vbox)
 
+        self.city_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.city_input.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.city_label.setObjectName("city_label")
         self.city_label.setObjectName("city_input")
         self.city_label.setObjectName("get_weather_button")
         self.city_label.setObjectName("temperature_label")
         self.city_label.setObjectName("description_label")
 
-        
+        # basic stylesheet
+        self.setStyleSheet("""
+            QLabel, QPushButton{
+                font-family: Arial;          
+            }        
+            QLabel#city_label{
+                font-size: 40px;
+                font-style: italic;
+            }
+        """)
+
 
 def main():
     app = QApplication(sys.argv)
