@@ -10,12 +10,12 @@ from PyQt6.QtCore import Qt
 class weather_app(QWidget):
     def __init__(self):
         super().__init__()
-        self.city_label = QLabel("Enter the name of your city: ", self)
+        self.city_label = QLabel("Enter your city: ", self)
         self.city_input = QLineEdit(self)
-        self.get_weather_button = QPushButton("Get weather", self)
-        self.temperature_label = QLabel("20°C", self)
-        self.emoji_label = QLabel("☀️", self)
-        self.description = QLabel("warm and clear", self)
+        self.get_weather_button = QPushButton("weather data", self)
+        self.temperature_label = QLabel(self)
+        self.emoji_label = QLabel(self)
+        self.description = QLabel(self)
 
         self.initUI()
 
@@ -76,6 +76,17 @@ class weather_app(QWidget):
                 font-weight: bold;
             }
         """)
+
+        self.get_weather_button.clicked.connect(self.get_weather)
+
+    def get_weather(self):
+        print("Get the weather")
+
+    def display_error(self):
+        ...
+    
+    def display_weather(self):
+        ...
 
 
 def main():
