@@ -91,15 +91,29 @@ class weather_app(QWidget):
         weather_api_key = keys["weather-key"]
         # get the city name
         city = self.city_input.text()
-        # setup the URL with the query
+
+        # geocoding API url
         url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={weather_api_key}"
-
-        # geocoding API request:
+        # geocode API request:
         response = requests.get(url)
-        city_data = response.json()
-        with open("city.json", "w") as file:
-            json.dump(city_data, file)
+        geo_data = response.json()
+        #   optional: write the json result
+        # with open("city.json", "w") as file:
+        #    json.dump(city_data, file, indent = 4)
 
+        latitude = geo_data[0]["lat"]
+        longitude = geo_data[0]["lon"]
+
+        # weather data api url:
+        url = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={weather_api_key}"
+        # weather data call:
+        response = requests.get(url)
+        # save info:
+        weather_data = response.json()
+        with open("weather_data.json", "w") as file:
+            json.dump(weather_data, file, indent = 4)
+
+        
 
     def display_error(self):
         ...
