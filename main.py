@@ -93,34 +93,43 @@ class weather_app(QWidget):
         city = self.city_input.text()
 
         # geocoding API url
-        url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={weather_api_key}"
-        # geocode API request:
-        response = requests.get(url)
-        geo_data = response.json()
-        #   optional: write the json result
-        # with open("city.json", "w") as file:
-        #    json.dump(city_data, file, indent = 4)
-
-        latitude = geo_data[0]["lat"]
-        longitude = geo_data[0]["lon"]
+        url_geo = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={weather_api_key}"
+        try:
+            # geocode API request:
+            response = requests.get(url_geo)
+            response.raise_for_status()
+            geo_data = response.json()
+            #   optional: write the json result
+            # with open("city_location.json", "w") as file:
+            #    json.dump(city_data, file, indent = 4)
+            latitude = geo_data[0]["lat"]
+            longitude = geo_data[0]["lon"]
+        except requests.exceptions.HTTPError:
+            print("city not found\n" + response.status_code)
 
         # weather data api url:
-        url = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={weather_api_key}"
-        # weather data call:
-        response = requests.get(url)
-        # save info:
-        weather_data = response.json()
-        with open("weather_data.json", "w") as file:
-            json.dump(weather_data, file, indent = 4)
-
-        
+        url_weather = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={weather_api_key}"
+        try:
+            # weather data call:
+            response = requests.get(url_weather)
+            response.raise_for_status()
+            weather_data = response.json()
+            # call the display function
+            self.display_weather(weather_data)
+        except requests.exceptions.HTTPError:
+            # Handle errors
+            print("error code: " + response.status_code)
 
     def display_error(self):
         ...
     
-    def display_weather(self):
-        ...
-
+    def display_weather(self, weather_data: dict):
+        # save info:
+        with open("weather_data.json", "w") as file:
+            json.dump(weather_data, file, indent = 4)
+        # proceed
+        print(weather_data)
+        
 
 def main():
     app = QApplication(sys.argv)
