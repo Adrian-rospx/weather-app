@@ -1,10 +1,14 @@
 # intro to PyQt6
+import json.scanner
 import sys
+# Qt:
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget,
-                             QLabel, QPushButton, QLineEdit,
-                             QVBoxLayout)
+                             QLabel, QPushButton, QLineEdit, QVBoxLayout)
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
+# web and tools
+import requests
+import json
 
 # define the Qt window
 class weather_app(QWidget):
@@ -80,7 +84,22 @@ class weather_app(QWidget):
         self.get_weather_button.clicked.connect(self.get_weather)
 
     def get_weather(self):
-        print("Get the weather")
+        
+        # import the weather-API key
+        with open("keys.json", "r") as file:
+            keys = json.load(file)
+        weather_api_key = keys["weather-key"]
+        # get the city name
+        city = self.city_input.text()
+        # setup the URL with the query
+        url = f"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={weather_api_key}"
+
+        # geocoding API request:
+        response = requests.get(url)
+        city_data = response.json()
+        with open("city.json", "w") as file:
+            json.dump(city_data, file)
+
 
     def display_error(self):
         ...
