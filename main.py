@@ -16,7 +16,7 @@ class weather_app(QWidget):
         self.picture = QLabel(self)
         self.city_label = QLabel("Enter your city name: ", self)
         self.city_input = QLineEdit(self)
-        self.get_weather_button = QPushButton("weather data", self)
+        self.get_weather_button = QPushButton("get weather data", self)
         self.temperature_label = QLabel(self)
         self.emoji_label = QLabel(self)
         self.description = QLabel(self)
@@ -62,19 +62,25 @@ class weather_app(QWidget):
         # basic stylesheet
         self.setStyleSheet("""
             QLabel, QPushButton{
+                color: white;
                 font-family: Arial;          
             }        
             QLabel#city_label{
+                color: white;
                 font-size: 40px;
                 font-style: italic;
-                padding: 20px;
+                border: 10px solid hsl(200, 92%, 62%);
+                border-radius: 10%;
+                background-color:  hsl(200, 92%, 62%);
             }
             QLineEdit#city_input{
+                color: white;
                 font-size: 40px;
             }
             QPushButton#get_weather_button{
                 font-size: 40px;
                 font-weight: bold;
+                background-color: hsl(230, 92%, 62%)
             }
             QLabel#temperature_label{
                 font-size: 80px;
