@@ -3,7 +3,7 @@ import sys
 # Qt:
 from PyQt6.QtWidgets import (QApplication, QWidget,
                              QLabel, QPushButton, QLineEdit, QVBoxLayout)
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import Qt
 # web and tools
 import requests
@@ -13,6 +13,7 @@ import json
 class weather_app(QWidget):
     def __init__(self):
         super().__init__()
+        self.picture = QLabel(self)
         self.city_label = QLabel("Enter your city name: ", self)
         self.city_input = QLineEdit(self)
         self.get_weather_button = QPushButton("weather data", self)
@@ -28,8 +29,15 @@ class weather_app(QWidget):
         self.setWindowTitle("Weather app")
         self.setWindowIcon(QIcon("cloud.png"))
 
+        # setup picture
+        pixmap = QPixmap("weather.jpg")
+        self.picture.setGeometry(0, 0, self.width(), 250)
+        self.picture.setPixmap(pixmap)
+        self.picture.setScaledContents(True)
+
         # use vbox to organize all labels
         vbox = QVBoxLayout()
+        vbox.insertSpacing(0, 250)
         vbox.addWidget(self.city_label)
         vbox.addWidget(self.city_input)
         vbox.addWidget(self.get_weather_button)
@@ -140,9 +148,9 @@ class weather_app(QWidget):
     def match_emoji(self, data) -> str:
         id = data["weather"][0]["id"]
         icon = data["weather"][0]["icon"]
-        if icon[-1] == 'd':
-            daytime = True
-        else:
+
+        daytime = True
+        if icon[-1] == 'n':
             daytime = False
 
         weather_type = id // 100
