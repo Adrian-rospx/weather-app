@@ -1,7 +1,7 @@
 # intro to PyQt6
 import sys
 # Qt:
-from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget,
+from PyQt6.QtWidgets import (QApplication, QWidget,
                              QLabel, QPushButton, QLineEdit, QVBoxLayout)
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
@@ -24,9 +24,10 @@ class weather_app(QWidget):
 
     # function for defining the UI
     def initUI(self):
+        self.setGeometry(600, 150, 600, 800)
         self.setWindowTitle("Weather app")
         self.setWindowIcon(QIcon("cloud.png"))
-        
+
         # use vbox to organize all labels
         vbox = QVBoxLayout()
         vbox.addWidget(self.city_label)
@@ -72,7 +73,6 @@ class weather_app(QWidget):
             }
             QLabel#emoji_label{
                 font-size: 120px;
-                padding: 20px;
                 font-family: Segoe Ui emoji;
             }
             QLabel#description_label{
@@ -139,26 +139,48 @@ class weather_app(QWidget):
         
     def match_emoji(self, data) -> str:
         id = data["weather"][0]["id"]
+        icon = data["weather"][0]["icon"]
+        if icon[-1] == 'd':
+            daytime = True
+        else:
+            daytime = False
+
         weather_type = id // 100
 
         match weather_type:
+            # thunderstorm
             case 2:
                 return "⛈️"
             case 3:
                 return "🌧️"
+            # rain
             case 5:
                 return "🌧️"
+            # snow
             case 6:
                 return "🌨️"
+            # atmospheric events
             case 7:
                 if id == 781:
                     return "🌪️"
-                return "☁️"    
+                return "☁️"
+            # clouds  
             case 8:
+                # clear
                 if id == 800:
-                    return "☀️"
-                else:
-                    return "☁️"
+                    if daytime:
+                        return "☀️"
+                    else:
+                        return "🌙"
+                # few clouds
+                if id == 801:
+                    if daytime:
+                        return "🌤️"
+                # scattered clouds
+                if id == 802:
+                    if daytime:
+                        return "🌥️"
+                return "☁️"
             case _:
                 return "!"
 
