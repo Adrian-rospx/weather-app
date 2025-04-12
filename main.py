@@ -1,10 +1,10 @@
-# intro to PyQt6
+# intro to PyQt6 (and PySide6)
 import sys
 # Qt:
-from PyQt6.QtWidgets import (QApplication, QWidget,
+from PySide6.QtWidgets import (QApplication, QWidget,
                              QLabel, QPushButton, QLineEdit, QVBoxLayout)
-from PyQt6.QtGui import QIcon, QPixmap
-from PyQt6.QtCore import Qt
+from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtCore import Qt
 # web and tools
 import requests
 import json
