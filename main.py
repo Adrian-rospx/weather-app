@@ -1,5 +1,4 @@
 # intro to PyQt6
-import json.scanner
 import sys
 # Qt:
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget,
@@ -14,7 +13,7 @@ import json
 class weather_app(QWidget):
     def __init__(self):
         super().__init__()
-        self.city_label = QLabel("Enter your city: ", self)
+        self.city_label = QLabel("Enter your city name: ", self)
         self.city_input = QLineEdit(self)
         self.get_weather_button = QPushButton("weather data", self)
         self.temperature_label = QLabel(self)
@@ -73,6 +72,7 @@ class weather_app(QWidget):
             }
             QLabel#emoji_label{
                 font-size: 120px;
+                padding: 20px;
                 font-family: Segoe Ui emoji;
             }
             QLabel#description_label{
@@ -128,8 +128,39 @@ class weather_app(QWidget):
         with open("weather_data.json", "w") as file:
             json.dump(weather_data, file, indent = 4)
         # proceed
-        print(weather_data)
+        temperature = weather_data["main"]["temp"] - 273.15
+        temperature: str = str(round(temperature))
+        description: str = weather_data["weather"][0]["description"]
+        emoji: str = self.match_emoji(weather_data)
+
+        self.temperature_label.setText(temperature + "°C")
+        self.description.setText(description)
+        self.emoji_label.setText(emoji)
         
+    def match_emoji(self, data) -> str:
+        id = data["weather"][0]["id"]
+        weather_type = id // 100
+
+        match weather_type:
+            case 2:
+                return "⛈️"
+            case 3:
+                return "🌧️"
+            case 5:
+                return "🌧️"
+            case 6:
+                return "🌨️"
+            case 7:
+                if id == 781:
+                    return "🌪️"
+                return "☁️"    
+            case 8:
+                if id == 800:
+                    return "☀️"
+                else:
+                    return "☁️"
+            case _:
+                return "!"
 
 def main():
     app = QApplication(sys.argv)
